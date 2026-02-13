@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentines Day</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: url("./assets/img/jem.jpg") no-repeat center center fixed;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: -1;
+}
+
+/* Flower Decorations */
+.top-right-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 350px;
+}
+
+.top-left-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 350px;
+}
+
+/* Opening Question */
+#questionBox {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  z-index: 9999;
+}
+
+#questionBox h2 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 55px;
+  color: #c2185b;
+  margin-bottom: 30px;
+}
+
+.btn-love {
+  padding: 12px 30px;
+  margin: 10px;
+  border-radius: 30px;
+  border: 2px solid #c2185b;
+  background: white;
+  color: #c2185b;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#yesBtn {
+  background: #c2185b;
+  color: white;
+}
+
+#noBtn {
+  position: relative;
+}
+
+/* Title Styling */
+.title {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.title h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 65px;
+  color: #c2185b;
+}
+
+.title h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* Falling Hearts */
+.heart {
+  position: fixed;
+  top: -10px;
+  font-size: 20px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Crying cat floating animation */
+@keyframes floatCat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(-5deg); }
+  50% { transform: translateY(0px) rotate(5deg); }
+  75% { transform: translateY(10px) rotate(-5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+#cryingCat {
+  animation: floatCat 2s infinite ease-in-out;
+  position: absolute;
+  width: 150px;
+  display: none;
+  z-index: 9999;
+}
+
+.sender {
+  margin-top: 30px;
+  font-family: 'Great Vibes', cursive;
+  font-size: 28px;
+  color: #c2185b;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FLOWER IMAGES -->
+<img src="https://i.imgur.com/dGOOfnA.png" class="top-right-decoration">
+<img src="https://i.imgur.com/t6ffnbn.png" class="top-left-decoration">
+
+<!-- QUESTION OVERLAY -->
+<div id="questionBox">
+  <h2>Love mo ba si Gelo? 💖</h2>
+  <div>
+    <button id="yesBtn" class="btn-love" onclick="acceptLove()">YES 💕</button>
+    <button id="noBtn" class="btn-love">NO 😝</button>
+  </div>
+</div>
+
+<!-- PLACEHOLDER NG CRYING CAT -->
+<img id="cryingCat" src="./assets/img/cat1.png">
+
+<script>
+let yesSize = 18;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const cat = document.getElementById("cryingCat");
+
+// List ng 10 cat images
+const catImages = [
+  "./assets/img/duck2.jpg",
+  "./assets/img/aso2.jpg",
+  "./assets/img/aso1.jpg",
+  "./assets/img/cat2.png",
+  "./assets/img/duck1.jpg",
+  "./assets/img/aso3.jpg",
+  "./assets/img/cat3.png",
+  "./assets/img/cat4.png",
+  "./assets/img/dog5.gif",
+  "./assets/img/dog6.webp"
+];
+
+// Function to move NO button randomly and show cat
+function moveNo() {
+  const x = Math.random() * 300 - 150;
+  const y = Math.random() * 100 - 50;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+  // Lumalaki YES button konti
+  yesSize += 5;
+  yesBtn.style.fontSize = yesSize + "px";
+  noBtn.style.fontSize = (yesSize - 10) + "px";
+
+  // Show crying cat
+  const randomIndex = Math.floor(Math.random() * catImages.length);
+  cat.src = catImages[randomIndex];
+  cat.style.display = "block";
+
+  // Position cat a bit above the NO button
+  const rect = noBtn.getBoundingClientRect();
+  cat.style.left = rect.left + window.scrollX + "px";
+  cat.style.top = rect.top + window.scrollY - cat.offsetHeight - 10 + "px"; // 10px above
+}
+
+// NO button umiwas kapag hinahover
+noBtn.addEventListener("mouseenter", moveNo);
+
+// Still clickable
+noBtn.addEventListener("click", function() {
+  moveNo(); // Change cat image every click too
+  alert("AWWW AWWWW AWWW AWWWW AWWWW AWWWW");
+});
+
+// EXISTING JS functions
+function acceptLove() {
+  document.getElementById("questionBox").style.display = "none";
+  
+  // Hide the crying cat if it’s visible
+  cat.style.display = "none";
+  
+  document.getElementById("audio").play();
+  startHearts();
+}
+
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }, 300);
+}
+</script>
+
+<!-- ORIGINAL MESSAGE (UNCHANGED) -->
+<div class="title">
+<h1>To My Love Bea, este Jem Sienna</h1>
+
+<h2>
+Hi love alam kong pagod ka today, basahin mo na lang pag free time mo and nakapagpahinga kana hahahahaha. Sana magutuhan mo tong simpleng greetings na ginawa ko, 
+medyo limot ko na mag code buti na lang andyan si pareng gpt. Pero alam ko you deserve more than this. Babawi ako sa susunod :)
+</h2>
+
+<h2>
+So ayun una, pasensya na kung sa ngayon, di kita mapuntahan kahit na di naman tawid dagat yung layo. Sorry love, kung di man lang kita mabilhan ng favorite 
+mong bulaklak na lipstulips? ay Tulips pala yon HAHAHAHAHA. 
+Diko nga alam bat pinagtitiyagaan moko, kahit minsan walang kwenta tsaka puro kalokohan lang pinagsasabi ko. Pero salamat dahil andyan ka pa din, sa school, 
+for sure nasa school ka, parang don kana kasi nakatira monday-friday, simula 7am to 5pm OT pa madalas 😭. Grabe yung dedication and patience e, pano na ang 
+Pilipinas kung wala ang mga tulad mo HAHAHAHAHA. Pero alam ko naman na masaya ka talaga sa ginagawa mo (sana talaga hahahahaa). Di naman mag bebest in cleanest yan 
+kung hindi e 🤪. Pero wag mo masyado galingan, baka matuwa sila sister at kunin ka na nila. Pano na yung mga fantasy natin, magiging fantasy na lang talaga :( 
+Sayang naman yung mga "couple photobooth pose ideas" na sinave natin hahahahaha.
+</h2>
+
+<h2>
+Last but not the least (english yan hahahaha), gawin mo lang yung mga kailangan mo 
+gawin  love. Di naman ako magtatampo, siguro mangungulila lang, mananabik, mamimiss lang kita. Ganon lang hahahaha. Pero alam ko naman na super busy mo talaga.
+Kaya proud nga ko sayo, kasi sobrang sipag and tiyaga mo lalo na mga bata pa yung tinuturuan mo. Always be kind lang love, babalik din yung good karma sayo. 
+Always be kind din sa sarili mo, wag mo masyadong pagurin. Ipahinga mo pag di na kaya. Tas laban na ulit. :)
+</h2>
+
+<h2>
+Ayun lang love, Masaya ako kasi chinat mo ulit ako kahit na alam mo na. May di magandang bagay akong nagawa nung una. Ayoko na ulit ma silent mode😭. Sana magkita na tayo soon :)S
+Happy Valentine’s Day Love 😚
+</h2>
+
+<audio id="audio" loop>
+<source src="./assets/mp3/itolamang.mp3" type="audio/mpeg">
+</audio>
+
+<p class="sender">
+Nagmamahal, <br />
+Your GELOy 😊
+</p>
+</div>
+
+</body>
+</html>
